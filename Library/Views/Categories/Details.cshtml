@@ -1,0 +1,27 @@
+﻿@model Library.Models.Category
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>目录内容</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="/Categories/Edit/@Model.Id" class="btn btn-default">编辑</a>
+    <a href="/Categories/Index" class="btn btn-default">返回列表</a>
+ 
+</p>

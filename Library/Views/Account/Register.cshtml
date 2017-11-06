@@ -1,0 +1,61 @@
+﻿@model User
+@{
+    ViewBag.Title = "Account Register";
+    Layout = "~/Views/Shared/Auth_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <form>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName);
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Enter Username" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PassWord);
+            @Html.PasswordFor(m => m.PassWord, new { @class = "form-control", placeholder = "Enter PassWord" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email);
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter Email" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            @*@Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+            @Html.DropDownList("Sex", new SelectList(ViewBag.Sex, "Value", "Text"), new { @class = "btn btn-success dropdown-toggle form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CulturalLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            @*@Html.EditorFor(model => model.CulturalLevel, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.ValidationMessageFor(model => model.CulturalLevel, "", new { @class = "text-danger" })
+            @Html.DropDownList("CulturalLevel", new SelectList(ViewBag.CulturalLevel, "Value", "Text"), new { @class = "btn btn-success dropdown-toggle form-control", @name = "CulturalLevel" })
+
+        </div>
+        <div class="btn-group pull-left">
+
+            <button type="submit" class="btn btn-primary" id="btnRegister">
+                Register
+            </button>
+            <button type="button" class="btn btn-default" id="btnLogin">
+                Login
+            </button>
+        </div>
+    </form>
+}
+
+<script>
+    $('#btnLogin').click(function () {
+        location.href = "@Url.Content("~/Account/Login")"
+    })
+</script>

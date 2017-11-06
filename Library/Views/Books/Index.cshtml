@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Library.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    <a href="/books/create" class="btn btn-default">录入图书</a>
+</p>
+<div style="float:right">
+    <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+            @using (Html.BeginForm())
+            {
+                <p>
+                    分类查找:
+                    @Html.DropDownList("sortOreder", ViewData["Categories"] as SelectList, new { @class = "btn btn-primary" })
+                    输入图书名称: @Html.TextBox("searchString")
+                    <input type="submit" class="btn btn-primary" value="查询" />
+                </p>
+            }
+        </div>
+    </form>
+
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Press.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PubDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Number)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Name)*@
+                @{ if (item.Name.Length > 8)
+                    {
+                        @(item.Name.Substring(0, 8) + "...");
+                    }
+                    else
+                    {
+                        @item.Name;
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Press.Name)
+            </td>
+            <td>
+                @{ if (item.Name.Length > 8)
+                    {
+                        @(item.Name.Substring(0, 8) + "...");
+                    }
+                    else
+                    {
+                        @item.Author.Name;
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PubDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                <a href="/Books/Edit/@item.Id" class="btn btn-default">编辑</a>
+                <a href="/Books/Details/@item.Id" class="btn btn-default">详细内容</a>
+                <a href="/Books/Delete/@item.Id" class="btn btn-default">删除</a>
+               
+                @{
+                    User user = (User)Session["User"];
+                }
+                @using (Html.BeginForm("Create", "BorrowBooks"))
+                {
+                    <input type="text" name="UserId" value="@user.Id" hidden />
+                    <input type="text" name="BookId" value="@item.Id" hidden />
+                    <input type="checkbox" name="Type" value="true" hidden />
+                    <input type="submit" class="btn btn-default" value="借阅">
+                }
+              
+            </td>
+        </tr>
+  }
+
+</table>

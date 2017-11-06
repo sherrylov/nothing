@@ -1,0 +1,730 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <script src="~/Scripts/echarts.min.js"></script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">书籍类别统计</h4>
+                    </div>
+                    <div class="content">
+                        <div id="categoriesChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">所有书籍类别的饼图</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">出版社统计</h4>
+                    </div>
+                    <div class="content">
+                        <div id="PressesChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">出版社图书数量统计的饼图</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">作者作品及数量</h4>
+                    </div>
+                    <div class="content">
+                        <div id="AuthoresChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">作者作品及数量</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">出版图书年份时间线</h4>
+                    </div>
+                    <div class="content">
+                        <div id="BooksChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">图书年份时间线</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">用户借书次数统计表</h4>
+                    </div>
+                    <div class="content">
+                        <div id="BRbyUserChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">用户借书次数统计表</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">书籍被借次数统计表</h4>
+                    </div>
+                    <div class="content">
+                        <div id="BRbyBookChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">书籍被借次数统计表</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">历史月份借书次数统计表</h4>
+                    </div>
+                    <div class="content">
+                        <div id="BRbyDataChart" style="width: 100%;height:350px;">
+
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <p class="category">借书月份时间线</p>
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> update 1s before
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+    var categoriesChart = echarts.init(document.getElementById('categoriesChart'));
+
+        categoriesChart.setOption({
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: []
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: { show: true },
+                    dataView: { show: true, readOnly: false },
+                    magicType: {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '25%',
+                                width: '50%',
+                                funnelAlign: 'left',
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            calculable: true,
+            series: [
+                {
+                    name: '图书数量',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                    ]
+                }
+            ]
+        });
+
+    // 异步加载数据
+        var data;
+        $.get('/api/categories').done(function (data) {
+            categoriesChart.hideLoading();
+            categoriesChart.setOption({
+                legend: {
+                    data: data.map((d) => { return d.Name })
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: data.map((d) => {
+                        return {
+                            "value": d.Count,
+                            "name":d.Name
+                        }
+                    })
+                }]
+            });
+        });
+</script>
+
+<script type="text/javascript">
+    var AuthoresChart = echarts.init(document.getElementById('AuthoresChart'));
+
+    AuthoresChart.setOption({
+        color: ['#3398DB','#fff'],
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} "
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        legend: {
+            data: ['图书']
+        },
+        calculable: true,
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: [
+            {
+                type: 'value',
+            }
+        ],
+        xAxis: [
+            {
+                type: 'category',
+                data: [],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        series: [
+            {
+                name: '出版图书',
+                type: 'bar',
+                barWidth: '60%',
+                data: []
+            }
+        ]
+    });
+
+    // 异步加载数据
+    var data;
+    $.get('/api/authors').done(function (data) {
+        AuthoresChart.hideLoading();
+        AuthoresChart.setOption({
+            xAxis: [
+                {
+                    type: 'category',
+                    data: data.map((d) =>d.Name),
+                }
+            ],
+            series: [{
+                // 根据名字对应到相应的系列
+                data: data.map((d) =>d.Count)
+            }]
+        });
+    });
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+    var PressesChart = echarts.init(document.getElementById('PressesChart'));
+
+    PressesChart.setOption({
+        tooltip: {
+                show:true,
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: []
+            },
+            series: [
+                {
+                    name: '图书数量',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    center: ['60%', '60%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                    ]
+                }
+            ]
+        });
+
+    // 异步加载数据
+        var data;
+        $.get('/api/presses').done(function (data) {
+            PressesChart.hideLoading();
+            PressesChart.setOption({
+                legend: {
+                    data: data.map((d) => { return d.Name })
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: data.map((d) => {
+                        return {
+                            "value": d.Count,
+                            "name":d.Name
+                        }
+                    })
+                }]
+            });
+        });
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+    var BooksChart = echarts.init(document.getElementById('BooksChart'));
+
+    $.get('api/books', function (data) {
+        BooksChart.setOption(option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                data: data.map(function (item) {
+                    return item.Time;
+                })
+            },
+            yAxis: {
+                splitLine: {
+                    show: false
+                }
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: { show: true, readOnly: false },
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [{
+                startValue: '2004'
+            }, {
+                type: 'inside'
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 2,
+                    color: '#096'
+                }, {
+                    gt: 2,
+                    lte: 4,
+                    color: '#ffde33'
+                }, {
+                    gt: 4,
+                    lte: 6,
+                    color: '#ff9933'
+                }, {
+                    gt: 6,
+                    lte: 8,
+                    color: '#cc0033'
+                }, {
+                    gt: 8,
+                    lte: 10,
+                    color: '#660099'
+                }, {
+                    gt: 10,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: '出版图书',
+                type: 'line',
+                data: data.map(function (item) {
+                    return item.Count;
+                }),
+               
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+    var BRbyDataChart = echarts.init(document.getElementById('BRbyDataChart'));
+
+    $.get('api/borrowbooks?group=data', function (data) {
+        BRbyDataChart.setOption(option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                data: data.map(function (item) {
+                    return item.Time;
+                })
+            },
+            yAxis: {
+                splitLine: {
+                    show: false
+                }
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {},
+                     dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                }
+            },
+            dataZoom: [{
+                startValue: '2004'
+            }, {
+                type: 'inside'
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 2,
+                    color: '#096'
+                }, {
+                    gt: 2,
+                    lte: 4,
+                    color: '#ffde33'
+                }, {
+                    gt: 4,
+                    lte: 6,
+                    color: '#ff9933'
+                }, {
+                    gt: 6,
+                    lte: 8,
+                    color: '#cc0033'
+                }, {
+                    gt: 8,
+                    lte: 10,
+                    color: '#660099'
+                }, {
+                    gt: 10,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: '借阅图书次数',
+                type: 'line',
+                data: data.map(function (item) {
+                    return item.Count;
+                }),
+               
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    var BRbyBookChart = echarts.init(document.getElementById('BRbyBookChart'));
+
+    BRbyBookChart.setOption({
+        color: ['#77f172', '#7c2172'],
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} "
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        legend: {
+            data: ['图书']
+        },
+        calculable: true,
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: [
+            {
+                type: 'value',
+            }
+        ],
+        xAxis: [
+            {
+                type: 'category',
+                data: [],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        series: [
+            {
+                name: '被借书籍',
+                type: 'bar',
+                barWidth: '60%',
+                data: []
+            }
+        ]
+    });
+
+    // 异步加载数据
+    var data;
+    $.get('api/borrowbooks?group=book').done(function (data) {
+        BRbyBookChart.hideLoading();
+        BRbyBookChart.setOption({
+            xAxis: [
+                {
+                    type: 'category',
+                    data: data.map((d) =>d.BookName),
+                }
+            ],
+            series: [{
+                // 根据名字对应到相应的系列
+                data: data.map((d) =>d.Count)
+            }]
+        });
+    });
+</script>
+<script type="text/javascript">
+    var BRbyUserChart = echarts.init(document.getElementById('BRbyUserChart'));
+
+    BRbyUserChart.setOption({
+        color: ['#3398DB','#fff'],
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} "
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        legend: {
+            data: ['图书']
+        },
+        calculable: true,
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: [
+            {
+                type: 'value',
+            }
+        ],
+        xAxis: [
+            {
+                type: 'category',
+                data: [],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        series: [
+            {
+                name: '用户借书',
+                type: 'bar',
+                barWidth: '60%',
+                data: []
+            }
+        ]
+    });
+
+    // 异步加载数据
+    var data;
+    $.get('api/borrowbooks?group=user').done(function (data) {
+        BRbyUserChart.hideLoading();
+        BRbyUserChart.setOption({
+            xAxis: [
+                {
+                    type: 'category',
+                    data: data.map((d) =>d.UserName),
+                }
+            ],
+            series: [{
+                // 根据名字对应到相应的系列
+                data: data.map((d) =>d.Count)
+            }]
+        });
+    });
+</script>

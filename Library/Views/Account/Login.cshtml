@@ -1,0 +1,36 @@
+﻿@model Library.Models.User
+@{
+    ViewBag.Title = "Account Login";
+    Layout = "~/Views/Shared/Auth_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <form>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName);
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Enter Username" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PassWord);
+            @Html.PasswordFor(m => m.PassWord, new { @class = "form-control", placeholder = "Enter PassWord" })
+        </div>
+            <input name="Email" value="test@gmail.com" style="display:none" />
+            <div class="btn-group pull-left">
+                <button type="submit" class="btn btn-primary" id="btnLogin">
+                    Login
+                </button>
+                <button type="button" class="btn btn-default" id="btnRegister">
+                    Register
+                </button>
+            </div>
+</form>
+}
+
+<script>
+    $("#btnRegister").click(function () {
+        location.href="@Url.Content("~/Account/Register")"
+    })
+</script>

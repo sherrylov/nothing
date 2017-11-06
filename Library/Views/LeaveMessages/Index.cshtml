@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Library.Models.LeaveMessage>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a href="/LeaveMessages/create" class="btn btn-default">添加留言</a>
+</p>
+<div class="container">
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Body)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @{
+                        LibraryContext db = new LibraryContext();
+                        User user = (User)Session["User"];
+                        if (item.AuthorId == user.Id)
+                        {
+                            <a href="/LeaveMessages/Edit/@item.Id" class="btn btn-default">修改留言</a>
+                        }
+                    }
+
+                    @{
+                        if (user.is_admin() || item.AuthorId == user.Id)
+                        {
+                            <a href="/LeaveMessages/Delete/@item.Id" class="btn btn-default">删除留言</a>
+                        }
+                    }
+                </td>
+            </tr>
+                        }
+
+    </table>
+
+</div>

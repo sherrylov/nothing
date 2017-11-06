@@ -1,0 +1,26 @@
+﻿@model Library.Models.Author
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>作者信息</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="/Authors/Edit/@Model.Id" class="btn btn-default">编辑作者列表</a>
+    <a href="/Authors/Index" class="btn btn-default">返回作者列表</a>
+</p>

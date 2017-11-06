@@ -1,0 +1,26 @@
+﻿@model Library.Models.Press
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>出版社名称</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="/Presses/Edit/@Model.Id" class="btn btn-default">修改出版社名称</a>
+    <a href="/Presses/Index" class="btn btn-default">返回出版社列表</a>
+</p>

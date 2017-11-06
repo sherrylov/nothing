@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Library.Models.Press>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/echarts.common.min.js"></script>
+<div id="main" style="width: 600px;height:400px;"></div>
+<h2>出版社</h2>
+
+<p>
+    <a href="/Presses/Create" class="btn btn-default">添加出版社</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            <a href="/Presses/Edit/@item.Id" class="btn btn-default">编辑出版社</a>
+            <a href="/Presses/Details/@item.Id" class="btn btn-default">出版社信息</a>
+            <a href="/Presses/Delete/@item.Id" class="btn btn-default">删除出版社</a>
+        </td>
+    </tr>
+}
+</table>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        myChart.setOption({
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: []
+            },
+            series: [
+                {
+                    name: '图书数量',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                    ]
+                }
+            ]
+        });
+
+    // 异步加载数据
+        var data;
+        $.get('/api/presses').done(function (data) {
+            myChart.hideLoading();
+            myChart.setOption({
+                legend: {
+                    data: data.map((d) => { return d.Name })
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: data.map((d) => {
+                        return {
+                            "value": d.Count,
+                            "name":d.Name
+                        }
+                    })
+                }]
+            });
+        });
+</script>
